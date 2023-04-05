@@ -17,8 +17,8 @@ pipeline {
         stage('Edit YAML File') {
             steps {
                 sh 'yq --version'
-                sh 'yq eval \'.\"${params.servicename}\".image.tag = \"${params.servicetag}\"\' deployment.yaml -i'
-                sh 'yq eval \'.\"${params.servicename}\".image.tagSuffix = \"${params.tagsuffix}\"\' deployment.yaml -i'
+                sh 'yq eval \'.${params.servicename}.image.tag = \"${params.servicetag}\"\' deployment.yaml -i'
+                sh 'yq eval \'.${params.servicename}.image.tagSuffix = \"${params.tagsuffix}\"\' deployment.yaml -i'
                 sh 'cat deployment.yaml'
             }
         }
