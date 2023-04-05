@@ -1,5 +1,10 @@
 pipeline {
     agent any
+    parameters {
+       choice choices: ['abc', 'def', 'ghi'], description: 'select the service name in which to change the tag', name: 'servicename'
+       string defaultValue: 'latest', description: 'add the tag for the service', name: 'servicetag'
+       string defaultValue: '-release', description: 'add the tagsufix ', name: 'tagsuffix'
+     }
     stages {
         stage('Install yq') {
             steps {
@@ -12,8 +17,8 @@ pipeline {
         stage('Edit YAML File') {
             steps {
                 sh 'yq --version'
-                sh 'yq eval \'.abc.image.tag = "2.2.2"\' deployment.yaml -i'
-                sh 'yq eval \'.def.image.tagSuffix = "-release2"\' deployment.yaml -i'
+                sh 'yq eval \'.${params.servicename}.image.tag = "${params.servicetag}"\' deployment.yaml -i'
+                sh 'yq eval \'.${params.servicename}.image.tagSuffix = "${params.tagsuffix}"\' deployment.yaml -i'
                 sh 'cat deployment.yaml'
             }
         }
