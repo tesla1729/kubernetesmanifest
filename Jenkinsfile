@@ -13,7 +13,7 @@ pipeline {
             steps {
                 sh 'yq --version'
                 sh 'yq eval \'.abc.image.tag = "2.2.2"\' deployment.yaml -i'
-                sh 'yq eval \'.def.image.tag = "3.3.3"\' deployment.yaml -i'
+                sh 'yq eval \'.def.image.tagSuffix = "-release2"\' deployment.yaml -i'
                 sh 'cat deployment.yaml'
             }
         }
